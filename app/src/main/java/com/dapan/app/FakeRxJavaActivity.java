@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.dapan.rxjava.Function;
 import com.dapan.rxjava.Observable;
 import com.dapan.rxjava.Observer;
 
@@ -21,7 +22,21 @@ public class FakeRxJavaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fake_rxjava);
 
 
-        Observable.just("item")
+        Observable.just("1")
+                .map(new Function<String, Integer>() {
+                    @Override
+                    public Integer apply(String s) {
+                        Log.e("FakeRxJavaActivity", "apply parseInt");
+                        return Integer.parseInt(s);
+                    }
+                })
+                .map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) {
+                        Log.e("FakeRxJavaActivity", "apply toString");
+                        return integer.toString();
+                    }
+                })
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe() {
