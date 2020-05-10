@@ -10,6 +10,10 @@ public abstract class Observable<T> implements ObservableSource<T> {
         return onAssembly(new ObservableJust<>(t));
     }
 
+    public <R> Observable<R> map(Function<T, R> mapper) {
+        return onAssembly(new ObservableMap<T, R>(this, mapper));
+    }
+
     private static <T> Observable<T> onAssembly(Observable<T> observable) {
         return observable;
     }
