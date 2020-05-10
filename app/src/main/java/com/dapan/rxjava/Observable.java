@@ -10,7 +10,7 @@ public abstract class Observable<T> implements ObservableSource<T> {
         return onAssembly(new ObservableJust<>(t));
     }
 
-    private static <T> Observable<T> onAssembly(ObservableJust<T> observable) {
+    private static <T> Observable<T> onAssembly(Observable<T> observable) {
         return observable;
     }
 
