@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.dapan.rxjava.AndroidSchedulers;
 import com.dapan.rxjava.Function;
 import com.dapan.rxjava.Observable;
 import com.dapan.rxjava.Observer;
@@ -39,6 +40,7 @@ public class FakeRxJavaActivity extends AppCompatActivity {
                     }
                 })
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe() {

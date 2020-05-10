@@ -8,8 +8,9 @@ import android.view.View;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,8 +22,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Observable.just("item")
+        Observable.just("1")
+                .map(new Function<String, Integer>() {
+                    @Override
+                    public Integer apply(String s) {
+                        Log.e(TAG, "apply parseInt " + Thread.currentThread().getName());
+                        return Integer.parseInt(s);
+                    }
+                })
+                .map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) {
+                        Log.e(TAG, "apply toString " + Thread.currentThread().getName());
+                        return integer.toString();
+                    }
+                })
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(Disposable d) {
