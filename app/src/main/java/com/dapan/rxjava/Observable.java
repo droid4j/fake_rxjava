@@ -14,6 +14,10 @@ public abstract class Observable<T> implements ObservableSource<T> {
         return onAssembly(new ObservableMap<T, R>(this, mapper));
     }
 
+    public Observable<T> subscribeOn(Schedulers schedulers) {
+        return onAssembly(new ObservableSubscribeOn<T>(this, schedulers));
+    }
+
     private static <T> Observable<T> onAssembly(Observable<T> observable) {
         return observable;
     }
