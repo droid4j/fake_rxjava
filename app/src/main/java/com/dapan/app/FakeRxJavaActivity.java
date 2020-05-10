@@ -8,6 +8,7 @@ import android.util.Log;
 import com.dapan.rxjava.Function;
 import com.dapan.rxjava.Observable;
 import com.dapan.rxjava.Observer;
+import com.dapan.rxjava.Schedulers;
 
 /**
  * Created by per4j
@@ -26,36 +27,37 @@ public class FakeRxJavaActivity extends AppCompatActivity {
                 .map(new Function<String, Integer>() {
                     @Override
                     public Integer apply(String s) {
-                        Log.e("FakeRxJavaActivity", "apply parseInt");
+                        Log.e("FakeRxJavaActivity", "apply parseInt " + Thread.currentThread().getName());
                         return Integer.parseInt(s);
                     }
                 })
                 .map(new Function<Integer, String>() {
                     @Override
                     public String apply(Integer integer) {
-                        Log.e("FakeRxJavaActivity", "apply toString");
+                        Log.e("FakeRxJavaActivity", "apply toString " + Thread.currentThread().getName());
                         return integer.toString();
                     }
                 })
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe() {
-                        Log.e("FakeRxJavaActivity", "onSubscribe");
+                        Log.e("FakeRxJavaActivity", "onSubscribe " + Thread.currentThread().getName());
                     }
 
                     @Override
                     public void onNext(String next) {
-                        Log.e("FakeRxJavaActivity", "onNext: " + next);
+                        Log.e("FakeRxJavaActivity", "onNext: " + next + ", " + Thread.currentThread().getName());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("FakeRxJavaActivity", "onError");
+                        Log.e("FakeRxJavaActivity", "onError " + Thread.currentThread().getName());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e("FakeRxJavaActivity", "onComplete");
+                        Log.e("FakeRxJavaActivity", "onComplete " + Thread.currentThread().getName());
                     }
                 });
 
